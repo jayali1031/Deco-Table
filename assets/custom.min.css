@@ -3255,17 +3255,103 @@ margin-top:50%;
 }
 
 
-/* Deco Table */
-   .decloc{
-font-size:14px;
-     font-weight:bold;
-   }
 
-
-.decline {
-  margin: 5px 0;
+/* Ensure the first column is always 200px */
+.fixed-first-column {
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
+    font-weight: bold;
+    text-align: left;
+}
+.fixed-first-column {
+    position: sticky;
+    left: -1px; /* Fixes the first column */
+    background-color: #f9f9f9; /* Matches the table's background */
+    z-index: 1; /* Ensures it appears above other content */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for better visibility */
 }
 
-.product-custom-tabs table thead th {
+.dynamic-columns {
+    width: 180px;
+    min-width: 180px;
+    max-width: 180px;
+    text-align: left;
+}
+
+/* Additional styling for rows and table */
+#imprintTable {
+    border-collapse: collapse;
+    width: auto;
+      border: 1px solid #ECECEC;
+
+}
+
+
+
+
+
+#imprintTable th, #imprintTable td {
+    text-align: left;
+    word-wrap: break-word;
+}
+#imprintTable td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  border-left:0;
+  border-right:0;
+}
+#imprintTable thead th {
     padding-left: 5px;
 }
+.imprint-table-container {
+    overflow: auto;
+    display: block;
+    max-width: 100%; /* Limit width to prevent table from breaking layout */
+
+}
+
+/* ------------- */
+.sticky-header {
+    display: none; /* Initially hidden */
+    position: fixed; /* Becomes fixed during scroll */
+    z-index: 10; /* Ensure it appears above table rows */
+    background-color: white; /* Match table background */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for visibility */
+    border-bottom: 1px solid #ECECEC; /* Optional for clarity */
+}
+
+/* Additional table container styling */
+.imprint-table-container {
+    position: relative; /* Ensure the sticky header is bounded within this container */
+    overflow: auto;
+    max-width: 100%; /* Prevents the container from exceeding the viewport width */
+    display: block; /* Explicitly set to block for consistency and clarity */
+}
+
+.sticky-header th {
+    padding-left: 5px;
+      background: #ECECEC;
+    color: #000;
+    font-weight: 500;
+    border: 1px solid #ECECEC;
+    text-transform: uppercase;
+}
+#imprintTable th, #imprintTable td {
+    text-align: left;
+    word-wrap: break-word;
+}
+
+
+/* ------------- */
+
+/* Styling for decoration locations */
+.decloc {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.decline {
+    margin: 5px 0;
+}
+

@@ -11,6 +11,10 @@
     <div class="inner-tab">
       <h3 class="inner-tab__title">Description</h3>
       <div class="inner-tab__content">
+        <!--  <span>{{ product.metafields.custom.deco_image.value  }}</span>--!>
+     <!--       <span>{{ product.metafields.customAttributes.deco_image.value }}</span>--!>
+
+        
         {%- if settings.product_info_show_description -%}
           {%- if product.metafields.description.content != blank or product.description != blank -%}
             <div class="product-page-info__description">
@@ -145,6 +149,9 @@
      {% endcapture %}
     {% capture content %}
     {{ 'gemline.min.css' | asset_url | stylesheet_tag }}
+
+{% if product.metafields.custom.imprint_json.value == blank %}
+      
     <div  class="cProductDetailDecorationData" data-aura-class="cProductDetailDecorationData">
     <!--start print number-1 -->
       {% if product.metafields.customAttributes.decoration-print-method != blank or product.metafields.customAttributes.btn-print != blank or product.metafields.customAttributes.locations-print-area != blank or product.metafields.customAttributes.setup-charge  != blank or product.metafields.customAttributes.run-charge  != blank or product.metafields.customAttributes.add-location-charge != blank or product.metafields.customAttributes.production-time != blank or product.metafields.customAttributes.disclaimer-print != blank %}
@@ -626,7 +633,248 @@
   </div>
   {% endif %}
    <!--end le number-9 -->
+
+
+
+
+      
+
+
+      
+      
   </div>
+{% endif %}
+
+{% if product.metafields.custom.imprint_json.value != blank %}
+
+{% assign imprint_data = product.metafields.custom.imprint_json.value | parse_json %}
+
+        {% assign methods = imprint_data.methods %}
+
+<div class="imprint-table-container">
+    <table id="imprintTable" style="table-layout: fixed;">
+        <thead>
+            <tr>
+                <th class="fixed-first-column"></th>
+                {% for method in methods %}
+                    <th class="dynamic-columns"><strong>{{ method.method }}</strong></th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Setup Charge Row -->
+            <tr>
+                <td class="fixed-first-column"><strong>Setup Charge</strong></td>
+                {% for method in methods %}
+                    <td class="dynamic-columns">${{ method.setupcharge }} (V)</td>
+                {% endfor %}
+            </tr>
+
+            <!-- First Run Charge Row -->
+            <tr>
+                <td class="fixed-first-column"><strong>First Run Charge</strong></td>
+                {% for method in methods %}
+                    <td class="dynamic-columns">
+                      
+                        {% assign has_valid_runcharge = false %}
+                          {% for location in method.decoration_locations %}
+                              {% if location.runcharge != blank and location.runcharge != '0' %}
+                                  {% assign has_valid_runcharge = true %}
+                              {% endif %}
+                          {% endfor %}
+                      {% if has_valid_runcharge %}
+                        {% for location in method.decoration_locations %}
+                            {% if forloop.index > 1 and location.runcharge != '0' and location.runcharge != blank %}
+                                <hr class="decline">
+                            {% endif %}
+                            {% if location.runcharge != blank and location.runcharge != '0' %}
+                                <span class="decloc">{{ location.location }}</span>:<br/>${{ location.runcharge }} (V)
+                            {% endif %}
+                        {% endfor %}
+                      {% else %}
+                          -
+                      {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+
+            <!-- Additional Run Charge Row -->
+            <tr>
+                <td class="fixed-first-column"><strong>Additional Run Charge</strong><br/><span style="font-size: 12px;">Per color/Per Location</span></td>
+                {% for method in methods %}
+                  
+                    <td class="dynamic-columns">
+              {% assign has_valid_addcharge = false %}
+            {% for location in method.decoration_locations %}
+                {% if location.addlocationcharge != blank and location.addlocationcharge != '0' %}
+                    {% assign has_valid_addcharge = true %}
+                {% endif %}
+            {% endfor %}
+
+
+                      {% if has_valid_addcharge %}
+                        {% for location in method.decoration_locations %}
+                            {% if forloop.index > 1 and location.addlocationcharge != '0' and location.addlocationcharge != blank %}
+                                <hr class="decline">
+                            {% endif %}
+                            {% if location.addlocationcharge and location.addlocationcharge != '0' %}
+                                <span class="decloc">{{ location.location }}</span>:<br/>${{ location.addlocationcharge }} (V)
+                            {% endif %}
+                        {% endfor %}
+                      {% else %}
+                          -
+                      {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+
+            <!-- Production Time Row -->
+            <tr>
+                <td class="fixed-first-column"><strong>Production Time</strong><br/><span style="font-size: 12px;">in Business Days - After Proof Approval</span></td>
+                {% for method in methods %}
+                    <td class="dynamic-columns">
+                        {% if method.productiontime != blank %}
+                            {{ method.productiontime }} days
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+
+            <!-- Decoration Locations Row -->
+            <tr>
+                <td class="fixed-first-column"><strong>Decoration Locations</strong></td>
+                {% for method in methods %}
+                    <td class="dynamic-columns">
+                        {% for location in method.decoration_locations %}
+                            {% if forloop.index > 1 and location.dimensions %}
+                                <hr class="decline">
+                            {% endif %}
+                            <span class="decloc">{{ location.location }}</span>:<br/>{{ location.dimensions }}
+                        {% endfor %}
+                    </td>
+                {% endfor %}
+            </tr>
+
+            <!-- Max Colors Row -->
+            <tr>
+                <td class="fixed-first-column"><strong>Max Colors</strong></td>
+                {% for method in methods %}
+                    <td class="dynamic-columns">{{ method.max_colors }}</td>
+                {% endfor %}
+            </tr>
+
+            <!-- Imprint Template Row -->
+            <tr>
+                <td class="fixed-first-column"><strong>Imprint Template</strong></td>
+                {% for method in methods %}
+                    <td class="dynamic-columns">
+                        {% for location in method.decoration_locations %}
+                            {% if forloop.index > 1 and location.customerpdf %}
+                                <hr class="decline">
+                            {% endif %}
+                            {% if location.customerpdf %}
+                                <span class="decloc">{{ location.location }}</span>:<br/> 
+                                <a href="{{ location.customerpdf }}" target="_blank">
+                                    <span style="font-weight:bold;text-decoration:underline;">Download Here</span>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                {% endfor %}
+            </tr>
+          
+            {% assign has_disclaimer = false %}
+            {% for method in methods %}
+                {% if method.disclaimer != blank %}
+                    {% assign has_disclaimer = true %}
+                {% endif %}
+            {% endfor %}
+            <!-- Disclaimer Row -->
+            {% if has_disclaimer %}
+            <tr>
+                <td class="fixed-first-column"><strong>Disclaimer</strong></td>
+                {% for method in methods %}
+                    <td class="dynamic-columns" style="font-size:13px;">{{ method.disclaimer }}</td>
+                {% endfor %}
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var tableContainer = document.querySelector(".imprint-table-container");
+    var table = tableContainer.querySelector("#imprintTable");
+    var tableHeader = table.querySelector("thead");
+    var stickyHeader = tableHeader.cloneNode(true); // Clone the header
+    var websiteHeader = document.querySelector(".header__content"); 
+    var headerHeight = websiteHeader.offsetHeight; 
+
+    // Create a container for the sticky header
+    var stickyContainer = document.createElement("div");
+    stickyContainer.classList.add("sticky-header");
+  //  stickyContainer.style.width = table.offsetWidth + "px";
+    stickyContainer.style.overflow = "hidden"; 
+    stickyContainer.appendChild(stickyHeader);
+    tableContainer.appendChild(stickyContainer); 
+
+ 
+    var firstHeaderCell = stickyHeader.querySelector("th");
+    if (firstHeaderCell) {
+        firstHeaderCell.style.position = "sticky"; 
+        firstHeaderCell.style.zIndex = "3"; 
+        firstHeaderCell.style.left = "0"; 
+    }
+
+    function updateStickyHeader() {
+        var containerRect = tableContainer.getBoundingClientRect();
+        var headerHeight = websiteHeader.offsetHeight;
+        var tableHeaderHeight = tableHeader.offsetHeight;
+
+        if (containerRect.top <= headerHeight && containerRect.bottom > tableHeaderHeight) {
+            stickyContainer.style.display = "block";
+            stickyContainer.style.position = "fixed";
+            stickyContainer.style.top = headerHeight + "px";
+            stickyContainer.style.left = containerRect.left + "px";
+   //         stickyContainer.style.width = containerRect.width + "px";
+        } else {
+            stickyContainer.style.display = "none"; 
+        }
+    }
+
+    function syncHorizontalScroll() {
+        // Use transform to shift the cloned sticky header
+        stickyHeader.style.transform = "translateX(-" + tableContainer.scrollLeft + "px)";
+              // Ensure first header cell remains visible and aligned
+        if (firstHeaderCell) {
+            firstHeaderCell.style.transform = "translateX(" + tableContainer.scrollLeft + "px)";
+        }
+    }
+
+    window.addEventListener("scroll", updateStickyHeader); // Vertical scrolling
+    window.addEventListener("resize", function () {
+        stickyContainer.style.width = table.offsetWidth + "px"; // Adjust width on resize
+        updateStickyHeader();
+    });
+    tableContainer.addEventListener("scroll", syncHorizontalScroll); // Horizontal scrolling sync
+
+    // Initial update
+    updateStickyHeader();
+});
+
+  </script>
+  
+</div>
+  
+  
+  <br/>
+  <span class="imprintdisclaimer">Please <a href="/pages/contact" target="_blank" >contact us</a> for rush production time.</span>
+
+
+  {% endif %}
+
+
+
 
 <!--end-row-->
 
@@ -710,8 +958,7 @@
             </th>
             <th>
               Incoming Inventory Quantity
-            </th>
-          <th>
+            <th>
               Expected Receipt Date
             </th>
           </tr>
@@ -740,42 +987,52 @@
                   else
                     if variant_quantity > 0
                       assign visible_text = '<td class="center-right-align"><span class="invqty">' | append: variant_quantity | append: '</span>' 
+              
                     endif
                   endif
                   echo visible_text
                 -%}
-  
+
+
+
+
+                
               </td>
-
 {% assign slider = product_variant.metafields.custom.incoming_inventory_json.value %} 
-
               <td class="center-right-align">
-                {% for slide in slider %}
-                  <p>{{ slide.remainingQuantity | number_with_delimiter }}</p>
-                {% endfor %}
+    {% for slide in slider %}
+      
+     <p>{{ slide.remainingQuantity | number_with_delimiter }}</p>
+    {% endfor %}
               </td>
 
     
-              <td style="">
-              {% for slide in slider %}
+            <td style="">
+                    {% for slide in slider %}
                 {%- if slide.estimatedReceiveByDate != "" -%}
                    <p>{{ slide.estimatedReceiveByDate }}</p>
                 {%- else -%}
                   <p style="">Call Customer Service</p>
                 {%- endif -%}
-              {% endfor %}
+ {% endfor %}
+
+                
+
               </td>
-            
+              
             </tr>
           {%- endfor -%}
         </tbody>
       </table>
 
+
+      
       <script>
   $(document).ready(function(){
     function numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+
     // Apply the function to format the number
     $('.invqty').each(function(){
       var originalNumber = $(this).text(); // Get the number as text
