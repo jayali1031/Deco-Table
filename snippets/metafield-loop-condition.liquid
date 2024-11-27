@@ -1,0 +1,907 @@
+{% include 'metafield-loop-condition-active-first-tab' %}
+
+{% if i == 1 %}
+  {%- liquid
+    assign product_metafields = product.metafields.customAttributes
+    assign tab_active = true
+    assign titles = 'PRODUCT DETAILS'
+  -%}
+
+  {%- capture content -%}
+    <div class="inner-tab">
+      <h3 class="inner-tab__title">Description</h3>
+      <div class="inner-tab__content">
+        {%- if settings.product_info_show_description -%}
+          {%- if product.metafields.description.content != blank or product.description != blank -%}
+            <div class="product-page-info__description">
+              <div class="rte">
+                {{ product.metafields.description.content | default: product.description }}
+              </div>
+              {% if product.metafields.customAttributes.item-notes-for-web != blank %}
+                <div class="itemNoteForWeb">
+                  <h4 class="mt">Note</h4>
+                  <div class="details">
+                    {{ product.metafields.customAttributes.item-notes-for-web }}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+    <div class="inner-tab">
+      <h3 class="inner-tab__title">Features</h3>
+      <div class="inner-tab__content inner-tab__features">
+        {%- if product_metafields.store-description != blank -%}
+          <h4 class="mt">
+            {{- product_metafields.store-description -}}
+          </h4>
+        {%- endif -%}
+
+        {%- if product_metafields.item-details != blank -%}
+          <h4 class="mt">Item Details</h4>
+          {{- product_metafields.item-details -}}
+        {%- endif -%}
+
+        {% if product_metafields.item-volume != blank %}
+          <p class="mt">
+            Item Volume in oz.:
+            {{ product_metafields.item-volume }} oz
+          </p>
+        {% endif %}
+
+        {% if product_metafields.item-packaging != blank %}
+          <p class="mt">
+            Item packaging:
+            {{ product_metafields.item-packaging }}
+          </p>
+        {% endif %}
+
+        {% if product_metafields.item-width != blank %}
+          <p class="mt">
+            Item width:
+            {{ product_metafields.item-width }}
+          </p>
+        {% endif %}
+
+        {% if product_metafields.item-height != blank %}
+          <p class="mt">
+            Item height:
+            {{ product_metafields.item-height }}
+          </p>
+        {% endif %}
+
+        {% if product_metafields.item-bottom-diameter != blank %}
+          <p class="mt">
+            Item bottom diameter:
+            {{ product_metafields.item-bottom-diameter }}
+          </p>
+        {% endif %}
+
+        {% if product_metafields.top-rack-dishwasher-safe != blank %}
+          <p class="mt">
+            Top Rack Dishwasher Safe:
+            {{ product_metafields.top-rack-dishwasher-safe }}
+          </p>
+        {% endif %}
+
+        {% if product_metafields.item-pms-color != blank %}
+          <p class="mt">
+            Item PMS color:
+            {{ product_metafields.item-pms-color }}
+          </p>
+        {% endif %}
+
+        {% if product_metafields.item-gusset != blank %}
+          <p class="mt">
+            Gusset:
+            {{ product_metafields.item-gusset }}
+          </p>
+        {% endif %}
+
+        {% if product_metafields.item-handle != blank %}
+          <p class="mt">
+            Handle:
+            {{ product_metafields.item-handle }}
+          </p>
+        {% endif %}
+
+        {% if product_metafields.item-material != blank %}
+          <p class="mt">
+            Material:
+            {{ product_metafields.item-material }}
+          </p>
+        {% endif %}
+
+        {% if product_metafields.item-batteries != blank %}
+          <p class="mt">
+            Batteries size:
+            {{ product_metafields.item-batteries }}
+          </p>
+        {% endif %}
+
+        {% if product_metafields.item-mah != blank %}
+          <p class="mt">
+            MAH:
+            {{ product_metafields.item-mah }}
+          </p>
+        {% endif %}
+
+        {% if product_metafields.item-patent != blank %}
+          <p class="mt">
+            Patent:
+            {{ product_metafields.item-patent }}
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  {%- endcapture -%}
+{% elsif i == 2 %}
+  {% if product.metafields.customAttributes.qty-pricing != blank or product.metafields.customAttributes.decorating-details != blank or product.metafields.customAttributes.decor-option != blank or product.metafields.customAttributes.locations-print-area != blank or product.metafields.customAttributes.setup-charge != blank or product.metafields.customAttributes.run-charge != blank or product.metafields.customAttributes.add-location-charge != blank or product.metafields.customAttributes.production-time != blank or product.metafields.customAttributes.decoration-method != blank or product.metafields.customAttributes.decoration-print-method != blank or product.metafields.customAttributes.decoration-digital-method != blank or product.metafields.customAttributes.decoration-insert-method != blank or product.metafields.customAttributes.decoration-patches-method != blank or product.metafields.customAttributes.decoration-deboss-method != blank or product.metafields.customAttributes.decoration-label-method != blank or product.metafields.customAttributes.decoration-ht-method != blank or product.metafields.customAttributes.decoration-fs-method != blank or product.metafields.customAttributes.decoration-le-method != blank %}
+    {% assign tab_active = true %}
+    {% capture titles %}
+          DECORATION OPTIONS AND PRICING
+     {% endcapture %}
+    {% capture content %}
+    {{ 'gemline.min.css' | asset_url | stylesheet_tag }}
+    <div  class="cProductDetailDecorationData" data-aura-class="cProductDetailDecorationData">
+    <!--start print number-1 -->
+      {% if product.metafields.customAttributes.decoration-print-method != blank or product.metafields.customAttributes.btn-print != blank or product.metafields.customAttributes.locations-print-area != blank or product.metafields.customAttributes.setup-charge  != blank or product.metafields.customAttributes.run-charge  != blank or product.metafields.customAttributes.add-location-charge != blank or product.metafields.customAttributes.production-time != blank or product.metafields.customAttributes.disclaimer-print != blank %}
+        <div class="deco-item number-1">
+          <div class="deco-header" >
+            {% if product.metafields.customAttributes.decoration-print-method!= blank %}
+              {{ product.metafields.customAttributes.decoration-print-method }}
+            {% endif %}
+          </div>
+        <div class="deco-body">
+          {% if product.metafields.customAttributes.btn-print != blank %}
+            <p style="text-align: left;"><a class="btn btn--secondary btn--small" href="{{ product.metafields.customAttributes.btn-print }}">  DOWNLOAD TEMPLATE</a></p>
+          {% endif %}
+          {% if product.metafields.customAttributes.locations-print-area != blank %}
+            <h3 class="mt">Locations & Printable Area</h3>
+            {{ product.metafields.customAttributes.locations-print-area }}
+          {% endif %}
+          {% if product.metafields.customAttributes.setup-charge  != blank %}
+            <h3 class="mt">Setup Charge Per Color/Per Location</h3>
+            {{ product.metafields.customAttributes.setup-charge }}
+          {% endif %}
+          {% if product.metafields.customAttributes.run-charge  != blank %}
+            <h3 class="mt">First Run Charge Per Color/Per Location</h3>
+            {{ product.metafields.customAttributes.run-charge }}
+          {% endif %}
+          {% if product.metafields.customAttributes.add-location-charge != blank %}
+            <h3 class="mt">Additional Run Charge Per Color/Per Location</h3>
+            {{ product.metafields.customAttributes.add-location-charge }}
+          {% endif %}
+          {% if product.metafields.customAttributes.production-time != blank %}
+            <h3 class="mt">Production Time (After Proof Approval) </h3>
+            {{ product.metafields.customAttributes.production-time }}
+          {% endif %}
+          {% if product.metafields.custom.print_decoration_templates != blank %}
+            <div class="div_template_deco_links">
+              <h3 class="mt">Imprint Template</h3>
+              {{ product.metafields.custom.print_decoration_templates }}
+            </div>
+          {% endif %}
+          {% if product.metafields.customAttributes.disclaimer-print != blank %}
+            <h3 class="mt">Disclaimer</h3>
+            {{ product.metafields.customAttributes.disclaimer-print }}
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  <!--end print number-1 -->
+  <!--start insert number-2 -->
+    {% if product.metafields.customAttributes.decoration-insert-method != blank or product.metafields.customAttributes.btn-insert != blank or product.metafields.customAttributes.locations-print-area-insert != blank or  product.metafields.customAttributes.setup-charge-insert  != blank or  product.metafields.customAttributes.run-charge-insert != blank or product.metafields.customAttributes.add-location-charge-insert != blank or  product.metafields.customAttributes.production-time-insert != blank or  product.metafields.customAttributes.disclaimer-insert != blank %}
+      <div class="deco-item number-2">
+          <div class="deco-header">
+          {% if product.metafields.customAttributes.decoration-insert-method != blank %}
+            {{ product.metafields.customAttributes.decoration-insert-method }}
+          {% endif %}
+        </div>
+        <div class="deco-body">
+          {% if product.metafields.customAttributes.btn-insert != blank %}
+            <p style="text-align: left;"><a class="btn btn--secondary btn--small" href="{{ product.metafields.customAttributes.btn-insert }}">  DOWNLOAD TEMPLATE</a></p>
+          {% endif %}
+          {% if product.metafields.customAttributes.locations-print-area-insert != blank %}
+            <h3 class="mt">Locations & Printable Area</h3>
+            {{ product.metafields.customAttributes.locations-print-area-insert }}
+          {% endif %}
+          {% if product.metafields.customAttributes.setup-charge-insert != blank %}
+            <h3 class="mt">Setup Charge Per Art/Logo</h3>
+            {{ product.metafields.customAttributes.setup-charge-insert }}
+          {% endif %}
+          {% if product.metafields.customAttributes.run-charge-insert != blank %}
+            <h3 class="mt">Run Charge Per Piece / Per Location</h3>
+            {{ product.metafields.customAttributes.run-charge-insert }}
+          {% endif %}
+          {% if product.metafields.customAttributes.add-location-charge-insert != blank %}
+            <h3 class="mt">Additional Location Charge Per Piece</h3>
+            {{ product.metafields.customAttributes.add-location-charge-insert }}
+          {% endif %}
+          {% if product.metafields.customAttributes.production-time-insert != blank %}
+            <h3 class="mt">Production Time</h3>
+            {{ product.metafields.customAttributes.production-time-insert }}
+          {% endif %}
+          {% if product.metafields.custom.insert_decoration_templates != blank %}
+            <div class="div_template_deco_links">
+              <h3 class="mt">Imprint Template</h3>
+              {{ product.metafields.custom.insert_decoration_templates }}
+            </div>
+          {% endif %}
+          {% if product.metafields.customAttributes.disclaimer-insert != blank %}
+            <h3 class="mt">Disclaimer</h3>
+            {{ product.metafields.customAttributes.disclaimer-insert }}
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  <!--end insert number-2 -->
+  <!--start digital number-3 -->
+    {% if  product.metafields.customAttributes.decoration-digital-method != blank or  product.metafields.customAttributes.btn-digital != blank or  product.metafields.customAttributes.locations-print-area-digital != blank or  product.metafields.customAttributes.setup-charge-digital  != blank or  product.metafields.customAttributes.run-charge-digital  != blank or  product.metafields.customAttributes.add-location-charge-digital != blank or  product.metafields.customAttributes.production-time-digital != blank or  product.metafields.customAttributes.disclaimer-digital != blank %}
+      <div class="deco-item number-3" >
+        <div class="deco-header" >
+          {% if product.metafields.customAttributes.decoration-digital-method != blank %}
+            {{ product.metafields.customAttributes.decoration-digital-method }}
+          {% endif %}
+        </div>
+        <div class="deco-body">
+          {% if product.metafields.customAttributes.btn-digital != blank %}
+            <p style="text-align: left;">
+              <a class="btn btn--secondary btn--small" href="{{ product.metafields.customAttributes.btn-digital }}">  DOWNLOAD TEMPLATE</a>
+            </p>
+          {% endif %}
+          {% if product.metafields.customAttributes.locations-print-area-digital != blank %}
+            <h3 class="mt">Locations & Printable Area</h3>
+            {{ product.metafields.customAttributes.locations-print-area-digital }}
+          {% endif %}
+          {% if product.metafields.customAttributes.setup-charge-digital  != blank %}
+            <h3 class="mt">Setup Charge Per Art/Logo</h3>
+            {{ product.metafields.customAttributes.setup-charge-digital }}
+          {% endif %}
+          {% if product.metafields.customAttributes.run-charge-digital  != blank %}
+            <h3 class="mt">Run Charge Per Art/Logo</h3>
+            {{ product.metafields.customAttributes.run-charge-digital }}
+          {% endif %}
+          {% if product.metafields.customAttributes.add-location-charge-digital != blank %}
+            <h3 class="mt">Additional Location Charge Per Piece</h3>
+            {{ product.metafields.customAttributes.add-location-charge-digital }}
+          {% endif %}
+          {% if product.metafields.customAttributes.production-time-digital != blank %}
+            <h3 class="mt">Production Time</h3>
+            {{ product.metafields.customAttributes.production-time-digital }}
+          {% endif %}
+          {% if product.metafields.custom.digital_decoration_templates != blank %}
+            <div class="div_template_deco_links">
+              <h3 class="mt">Imprint Template</h3>
+              {{ product.metafields.custom.digital_decoration_templates }}
+            </div>
+          {% endif %}
+          {% if product.metafields.customAttributes.disclaimer-digital != blank %}
+            <h3 class="mt">Disclaimer</h3>
+            {{ product.metafields.customAttributes.disclaimer-digital }}
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  <!--end digital number-3 -->
+  <!--start patch number-4 -->
+    {% if  product.metafields.customAttributes.decoration-patches-method != blank or  product.metafields.customAttributes.btn-patches != blank or  product.metafields.customAttributes.locations-print-area-patches != blank or  product.metafields.customAttributes.setup-charge-patches  != blank or  product.metafields.customAttributes.run-charge-patches  != blank or  product.metafields.customAttributes.add-location-charge-patches != blank or  product.metafields.customAttributes.production-time-patches != blank or  product.metafields.customAttributes.disclaimer-patches != blank %}
+      <div class="deco-item number-4">
+        <div class="deco-header">
+          {% if product.metafields.customAttributes.decoration-patches-method != blank %}
+            {{ product.metafields.customAttributes.decoration-patches-method }}
+          {% endif %}
+        </div>
+        <div class="deco-body">
+          {% if product.metafields.customAttributes.btn-patches != blank %}
+            <p style="text-align: left;">
+              <a class="btn btn--secondary btn--small" href="{{ product.metafields.customAttributes.btn-patches }}">  DOWNLOAD TEMPLATE</a>
+            </p>
+          {% endif %}
+          {% if product.metafields.customAttributes.locations-print-area-patches != blank %}
+            <h3 class="mt">Locations & Printable Area</h3>
+            {{ product.metafields.customAttributes.locations-print-area-patches  }}
+          {% endif %}
+          {% if product.metafields.customAttributes.setup-charge-patches  != blank %}
+            <h3 class="mt">Setup Charge Per Art / Logo</h3>
+            {{ product.metafields.customAttributes.setup-charge-patches }}
+          {% endif %}
+          {% if product.metafields.customAttributes.run-charge-patches  != blank %}
+            <h3 class="mt">Run Charge Per Piece</h3>
+            {{ product.metafields.customAttributes.run-charge-patches }}
+          {% endif %}
+          {% if product.metafields.customAttributes.add-location-charge-patches != blank %}
+            <h3 class="mt">Additional Location Charge Per Piece</h3>
+            {{ product.metafields.customAttributes.add-location-charge-patches }}
+          {% endif %}
+          {% if product.metafields.customAttributes.production-time-patches != blank %}
+            <h3 class="mt">Production Time</h3>
+            {{ product.metafields.customAttributes.production-time-patches }}
+          {% endif %}
+          {% if product.metafields.custom.patch_decoration_templates != blank %}
+            <div class="div_template_deco_links">
+              <h3 class="mt">Imprint Template</h3>
+              {{ product.metafields.custom.patch_decoration_templates }}
+            </div>
+          {% endif %}
+          {% if product.metafields.customAttributes.disclaimer-patches != blank %}
+            <h3 class="mt">Disclaimer</h3>
+            {{ product.metafields.customAttributes.disclaimer-patches }}
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  <!--end patch number-4 -->
+  <!--start label number-5 -->
+{% if product.metafields.customAttributes.decoration-label-method != blank or  product.metafields.customAttributes.btn-label != blank or product.metafields.customAttributes.locations-print-area-label != blank or product.metafields.customAttributes.setup-charge-label != blank or product.metafields.customAttributes.run-charge-label != blank or product.metafields.customAttributes.add-location-charge-label != blank or product.metafields.customAttributes.add-location-charge-label != blank or product.metafields.customAttributes.production-time-label != blank or product.metafields.customAttributes.disclaimer-label != blank %}
+
+  <div class="deco-item number-5" >
+
+    <div class="deco-header">
+      {% if product.metafields.customAttributes.decoration-label-method != blank %}
+        {{ product.metafields.customAttributes.decoration-label-method }}
+      {% endif %}
+    </div>
+
+    <div class="deco-body">
+
+       {% if product.metafields.customAttributes.btn-label != blank %}
+      <p style="text-align: left;"><a class="btn btn--secondary btn--small" href="{{ product.metafields.customAttributes.btn-label }}">  DOWNLOAD TEMPLATE</a></p>
+     {% endif %}
+
+      {% if product.metafields.customAttributes.locations-print-area-label != blank %}
+        <h4 class="mt">Locations & Printable Area</h4>
+        {{ product.metafields.customAttributes.locations-print-area-label  }}
+      {% endif %}
+
+      {% if product.metafields.customAttributes.setup-charge-label  != blank %}
+        <h3 class="mt">Setup Charge Per Piece / Per Location</h3>
+        {{ product.metafields.customAttributes.setup-charge-label   }}
+      {% endif %}
+
+      {% if product.metafields.customAttributes.run-charge-label  != blank %}
+        <h3 class="mt">Run Charge Per Piece / Per Location</h3>
+        {{ product.metafields.customAttributes.run-charge-label   }}
+      {% endif %}
+
+      {% if product.metafields.customAttributes.add-location-charge-label != blank %}
+        <h3 class="mt">Additional Location Charge Per Piece</h3>
+        {{ product.metafields.customAttributes.add-location-charge-label  }}
+      {% endif %}
+
+      {% if product.metafields.customAttributes.production-time-label != blank %}
+        <h3 class="mt">Production Time</h3>
+        {{ product.metafields.customAttributes.production-time-label }}
+      {% endif %}
+      {% if product.metafields.custom.label_decoration_templates != blank %}
+        <div class="div_template_deco_links">
+          <h3 class="mt">Imprint Template</h3>
+          {{ product.metafields.custom.label_decoration_templates }}
+        </div>
+      {% endif %}
+      {% if product.metafields.customAttributes.disclaimer-label != blank %}
+        <h3 class="mt">Disclaimer</h3>
+        {{ product.metafields.customAttributes.disclaimer-label }}
+      {% endif %}
+
+    </div>
+
+  </div>
+{% endif %}
+<!--end label number-5 -->
+
+<!--start ht number-6 -->
+{% if  product.metafields.customAttributes.decoration-ht-method != blank or  product.metafields.customAttributes.btn-ht != blank or  product.metafields.customAttributes.locations-print-area-ht != blank or  product.metafields.customAttributes.setup-charge-ht  != blank or  product.metafields.customAttributes.run-charge-ht  != blank or  product.metafields.customAttributes.add-location-charge-ht != blank or  product.metafields.customAttributes.production-time-ht != blank or  product.metafields.customAttributes.disclaimer-ht != blank %}
+
+  <div class="deco-item number-6" >
+
+
+   <div class="deco-header">{% if product.metafields.customAttributes.decoration-ht-method != blank %}
+{{ product.metafields.customAttributes.decoration-ht-method }}
+{% endif %}
+  </div>
+
+    <div class="deco-body">
+
+       {% if product.metafields.customAttributes.btn-ht != blank %}
+      <p style="text-align: left;"><a class="btn btn--secondary btn--small" href="{{ product.metafields.customAttributes.btn-ht }}">  DOWNLOAD TEMPLATE</a></p>
+     {% endif %}
+
+
+  {% if product.metafields.customAttributes.locations-print-area-ht != blank %}
+<h3 class="mt">Locations & Printable Area</h3>
+{{ product.metafields.customAttributes.locations-print-area-ht }}
+{% endif %}
+
+{% if product.metafields.customAttributes.setup-charge-ht != blank %}
+<h3 class="mt">Setup Charge Per Piece / Per Location</h3>
+{{ product.metafields.customAttributes.setup-charge-ht  }}
+{% endif %}
+
+{% if product.metafields.customAttributes.run-charge-ht  != blank %}
+<h3 class="mt">Run Charge Per Piece / Per Location</h3>
+{{ product.metafields.customAttributes.run-charge-ht   }}
+{% endif %}
+
+{% if product.metafields.customAttributes.add-location-charge-ht != blank %}
+<h3 class="mt">Additional Location Charge Per Piece</h3>
+{{ product.metafields.customAttributes.add-location-charge-ht }}
+{% endif %}
+
+{% if product.metafields.customAttributes.production-time-ht != blank %}
+<h3 class="mt">Production Time</h3>
+{{ product.metafields.customAttributes.production-time-ht }}
+{% endif %}
+      {% if product.metafields.custom.ht_decoration_templates != blank %}
+        <div class="div_template_deco_links">
+          <h3 class="mt">Imprint Template</h3>
+          {{ product.metafields.custom.ht_decoration_templates }}
+        </div>
+      {% endif %}
+{% if product.metafields.customAttributes.disclaimer-ht != blank %}
+<h3 class="mt">Disclaimer</h3>
+{{ product.metafields.customAttributes.disclaimer-ht }}
+{% endif %}
+
+  </div>
+</div>
+   {% endif %}
+<!--end ht number-6 -->
+
+
+
+ <!--start deboss number-7 -->
+{% if  product.metafields.customAttributes.decoration-deboss-method != blank or  product.metafields.customAttributes.btn-deboss != blank or  product.metafields.customAttributes.locations-print-area-deboss != blank or  product.metafields.customAttributes.setup-charge-deboss  != blank or  product.metafields.customAttributes.run-charge-deboss  != blank or  product.metafields.customAttributes.add-location-charge-deboss != blank or  product.metafields.customAttributes.production-time-deboss != blank or  product.metafields.customAttributes.disclaimer-deboss != blank %}
+  <div class="deco-item number-7" >
+   <div class="deco-header" >{% if product.metafields.customAttributes.decoration-deboss-method != blank %}
+{{ product.metafields.customAttributes.decoration-deboss-method }}
+{% endif %}
+    </div>
+  <div class="deco-body">
+
+     {% if product.metafields.customAttributes.btn-deboss != blank %}
+      <p style="text-align: left;"><a class="btn btn--secondary btn--small" href="{{ product.metafields.customAttributes.btn-deboss }}">  DOWNLOAD TEMPLATE</a></p>
+     {% endif %}
+
+
+
+ {% if product.metafields.customAttributes.locations-print-area-deboss != blank %}
+<h3 class="mt">Locations & Printable Area</h3>
+{{ product.metafields.customAttributes.locations-print-area-deboss  }}
+{% endif %}
+
+{% if product.metafields.customAttributes.setup-charge-deboss  != blank %}
+<h3 class="mt">Setup Charge Per Piece / Per Location</h3>
+{{ product.metafields.customAttributes.setup-charge-deboss   }}
+{% endif %}
+
+{% if product.metafields.customAttributes.run-charge-deboss  != blank %}
+<h3 class="mt">Run Charge Per Piece / Per Location</h3>
+{{ product.metafields.customAttributes.run-charge-deboss   }}
+{% endif %}
+
+{% if product.metafields.customAttributes.add-location-charge-deboss != blank %}
+<h3 class="mt">Additional Location Charge Per Piece</h3>
+{{ product.metafields.customAttributes.add-location-charge-deboss  }}
+{% endif %}
+
+{% if product.metafields.customAttributes.production-time-deboss != blank %}
+<h3 class="mt">Production Time</h3>
+{{ product.metafields.customAttributes.production-time-deboss }}
+{% endif %}
+    {% if product.metafields.custom.deboss_decoration_templates != blank %}
+      <div class="div_template_deco_links">
+        <h3 class="mt">Imprint Template</h3>
+        {{ product.metafields.custom.deboss_decoration_templates }}
+      </div>
+    {% endif %}
+{% if product.metafields.customAttributes.disclaimer-deboss != blank %}
+<h3 class="mt">Disclaimer</h3>
+{{ product.metafields.customAttributes.disclaimer-deboss }}
+{% endif %}
+</div>
+  </div>
+   {% endif %}
+<!--end deboss number-6 -->
+
+
+<!--start foil-stamp number-8 -->
+{% if  product.metafields.customAttributes.decoration-fs-method != blank or  product.metafields.customAttributes.btn-fs != blank or  product.metafields.customAttributes.locations-print-area-fs != blank or  product.metafields.customAttributes.setup-charge-fs  != blank or  product.metafields.customAttributes.run-charge-fs  != blank or  product.metafields.customAttributes.add-location-charge-fs != blank or  product.metafields.customAttributes.production-time-fs != blank or  product.metafields.customAttributes.disclaimer-fs != blank %}
+  <div class="deco-item number-8" >
+   <div class="deco-header" >{% if product.metafields.customAttributes.decoration-fs-method != blank %}
+{{ product.metafields.customAttributes.decoration-fs-method }}
+{% endif %}
+  </div>
+  <div class="deco-body">
+
+    {% if product.metafields.customAttributes.btn-fs != blank %}
+      <p style="text-align: left;"><a class="btn btn--secondary btn--small" href="{{ product.metafields.customAttributes.btn-fs }}">  DOWNLOAD TEMPLATE</a></p>
+     {% endif %}
+
+
+  {% if product.metafields.customAttributes.locations-print-area-fs != blank %}
+<h3 class="mt">Locations & Printable Area</h3>
+{{ product.metafields.customAttributes.locations-print-area-fs  }}
+{% endif %}
+
+{% if product.metafields.customAttributes.setup-charge-fs  != blank %}
+<h3 class="mt">Setup Charge Per Piece / Per Location</h3>
+{{ product.metafields.customAttributes.setup-charge-fs   }}
+{% endif %}
+
+{% if product.metafields.customAttributes.run-charge-fs  != blank %}
+<h3 class="mt">Run Charge Per Piece / Per Location</h3>
+{{ product.metafields.customAttributes.run-charge-fs   }}
+{% endif %}
+
+{% if product.metafields.customAttributes.add-location-charge-fs != blank %}
+<h3 class="mt">Additional Location Charge Per Piece</h3>
+{{ product.metafields.customAttributes.add-location-charge-fs  }}
+{% endif %}
+
+{% if product.metafields.customAttributes.production-time-fs != blank %}
+<h3 class="mt">Production Time</h3>
+{{ product.metafields.customAttributes.production-time-fs }}
+{% endif %}
+    {% if product.metafields.custom.foil_stamp_decoration_templates != blank %}
+      <div class="div_template_deco_links">
+        <h3 class="mt">Imprint Template</h3>
+        {{ product.metafields.custom.foil_stamp_decoration_templates }}
+      </div>
+    {% endif %}
+
+{% if product.metafields.customAttributes.disclaimer-fs != blank %}
+<h3 class="mt">Disclaimer</h3>
+{{ product.metafields.customAttributes.disclaimer-fs }}
+{% endif %}
+
+  </div>
+</div>
+  {% endif %}
+  <!--start foil-stamp number-8 -->
+
+
+
+
+
+<!--start le number-9 -->
+{% if product.metafields.customAttributes.decoration-le-method != blank or product.metafields.customAttributes.btn-le != blank or  product.metafields.customAttributes.locations-print-area-le != blank or  product.metafields.customAttributes.setup-charge-le  != blank or  product.metafields.customAttributes.run-charge-le  != blank or product.metafields.customAttributes.add-location-charge-le != blank or product.metafields.customAttributes.production-time-le != blank or product.metafields.customAttributes.disclaimer-le != blank %}
+  <div class="deco-item number-9" >
+
+
+   <div class="deco-header" >
+     {% if product.metafields.customAttributes.decoration-le-method != blank %}
+{{ product.metafields.customAttributes.decoration-le-method }}
+{% endif %}
+  </div>
+
+  <div class="deco-body">
+
+     {% if product.metafields.customAttributes.btn-le != blank %}
+      <p style="text-align: left;"><a class="btn btn--secondary btn--small" href="{{ product.metafields.customAttributes.btn-le }}">  DOWNLOAD TEMPLATE</a></p>
+     {% endif %}
+
+
+
+  {% if product.metafields.customAttributes.locations-print-area-le != blank %}
+<h3 class="mt">Locations & Printable Area</h3>
+{{ product.metafields.customAttributes.locations-print-area-le  }}
+{% endif %}
+
+{% if product.metafields.customAttributes.setup-charge-le  != blank %}
+<h3 class="mt">Setup Charge Per Art / Per Location</h3>
+{{ product.metafields.customAttributes.setup-charge-le   }}
+{% endif %}
+
+{% if product.metafields.customAttributes.run-charge-le  != blank %}
+<h3 class="mt">Run Charge Per Art / Per Location</h3>
+{{ product.metafields.customAttributes.run-charge-le   }}
+{% endif %}
+
+{% if product.metafields.customAttributes.add-location-charge-le != blank %}
+<h3 class="mt">Additional Location Charge Per Art</h3>
+{{ product.metafields.customAttributes.add-location-charge-le  }}
+{% endif %}
+
+{% if product.metafields.customAttributes.production-time-le != blank %}
+<h3 class="mt">Production Time</h3>
+{{ product.metafields.customAttributes.production-time-le }}
+{% endif %}
+    {% if product.metafields.custom.le_decoration_templates != blank %}
+      <div class="div_template_deco_links">
+        <h3 class="mt">Imprint Template</h3>
+        {{ product.metafields.custom.le_decoration_templates }}
+      </div>
+    {% endif %}
+
+{% if product.metafields.customAttributes.disclaimer-le != blank %}
+<h3 class="mt">Disclaimer</h3>
+{{ product.metafields.customAttributes.disclaimer-le }}
+{% endif %}
+
+
+</div>
+  </div>
+  {% endif %}
+   <!--end le number-9 -->
+  </div>
+
+<!--end-row-->
+
+
+     {% endcapture %}
+
+  {% endif %}
+{% elsif i == 3 %}
+
+  {% if product.metafields.customAttributes.delivery-time != blank or product.metafields.customAttributes.inventory != blank or product.metafields.customAttributes.items-per-carton != blank or product.metafields.customAttributes.carton-size != blank or product.metafields.customAttributes.total-carton-weight != blank or product.metafields.customAttributes.shipping-details != blank %}
+    {% assign tab_active = true %}
+    {% capture titles %}
+      {{ 'products.product.tabs.shipping_estimation_title' | t }}
+    {% endcapture %}
+    {% capture content %}
+      <div class="inner-tab">
+        <h3 class="inner-tab__title">Carton Specifications</h3>
+        <div class="inner-tab__content">
+          {% if product.metafields.customAttributes.item-shipping-details != blank %}
+            <p class="mt">Shipping Details:
+              {{ product.metafields.customAttributes.item-shipping-details }}</p>
+          {% endif %}
+
+          {% if product.metafields.customAttributes.item-delivery-time != blank %}
+            <p class="mt">Delivery Time:
+              {{ product.metafields.customAttributes.item-delivery-time }}</p>
+          {% endif %}
+
+          {% if product.metafields.customAttributes.shipping-details != blank %}
+            <p class="mt">Ship from:
+              {{ product.metafields.customAttributes.shipping-details }}
+            </p>
+          {% endif %}
+
+          {% if product.metafields.customAttributes.total-carton-weight != blank %}
+            <p class="mt">Total Carton Weight Lbs:
+              {{ product.metafields.customAttributes.total-carton-weight }}</p>
+          {% endif %}
+
+          {% if product.metafields.customAttributes.carton-size != blank %}
+            <p class="mt">Carton Size:
+              {{ product.metafields.customAttributes.carton-size }}</p>
+          {% endif %}
+
+          {% if product.metafields.customAttributes.items-per-carton != blank %}
+            <p class="mt">Items Per Carton:
+              {{ product.metafields.customAttributes.items-per-carton }}</p>
+          {% endif %}
+
+          {% if product.metafields.customAttributes.inventory != blank %}
+            <p class="mt">Inventory:
+              {{ product.metafields.customAttributes.inventory }}</p>
+          {% endif %}
+        </div>
+      </div>
+      {% include 'freight-estimator-widget' %}
+    {% endcapture %}
+  {% endif %}
+{% elsif i == 4 %}
+  {% assign tab_active = true %}
+  {% capture titles %}
+    {{ 'products.product.tabs.inventory_title' | t }}
+  {% endcapture %}
+
+  {% capture content %}
+    <div class="inventory-tab">
+      <div class="inventory-tab__info">
+        {{ 'products.product.tabs.inventory_description' | t }}
+      </div>
+      <table class="table-account-addresses responsive-tabl inventory-tab__table">
+        <thead>
+          <tr>
+            <th>
+              {{ 'products.product.tabs.inventory_sku' | t }}
+            </th>
+            <th>
+              {{ 'products.product.tabs.inventory_color' | t }}
+            </th>
+            <th>
+              Available Inventory
+            </th>
+            <th>
+              Incoming Inventory Quantity
+            </th>
+          <th>
+              Expected Receipt Date
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for product_variant in product.variants -%}
+            <tr>
+              <td>
+                {{ product_variant.sku }}
+              </td>
+              <td>
+                <div class="inventory-tab__table-row">
+                  <img src="{{ product_variant.image | image_url: width: 50 }}" />
+                  {{ product_variant.title }}
+                </div>
+              </td>
+              
+                {%- liquid
+                  assign variant_quantity = product_variant.inventory_quantity
+                  assign visible_text = 'products.product.tabs.inventory_call_service' | t
+                  assign show_continue = false
+                 assign visible_text = '<td class="">Call Customer Service'
+                  if product_variant.inventory_policy == 'continue'
+                    assign visible_text = 'products.product.tabs.inventory_always_available' | t
+                     assign visible_text = '<td class="center-right-align">Available'
+                  else
+                    if variant_quantity > 0
+                      assign visible_text = '<td class="center-right-align"><span class="invqty">' | append: variant_quantity | append: '</span>' 
+                    endif
+                  endif
+                  echo visible_text
+                -%}
+  
+              </td>
+
+{% assign slider = product_variant.metafields.custom.incoming_inventory_json.value %} 
+
+              <td class="center-right-align">
+                {% for slide in slider %}
+                  <p>{{ slide.remainingQuantity | number_with_delimiter }}</p>
+                {% endfor %}
+              </td>
+
+    
+              <td style="">
+              {% for slide in slider %}
+                {%- if slide.estimatedReceiveByDate != "" -%}
+                   <p>{{ slide.estimatedReceiveByDate }}</p>
+                {%- else -%}
+                  <p style="">Call Customer Service</p>
+                {%- endif -%}
+              {% endfor %}
+              </td>
+            
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+
+      <script>
+  $(document).ready(function(){
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    // Apply the function to format the number
+    $('.invqty').each(function(){
+      var originalNumber = $(this).text(); // Get the number as text
+      var formattedNumber = numberWithCommas(originalNumber); // Format with commas
+      $(this).text(formattedNumber); // Replace with formatted version
+    });
+  });
+</script>
+    </div>
+  {% endcapture %}
+
+{% elsif i == 5 %}
+
+  {% if product.metafields.customAttributes.downloads != blank or product.metafields.customAttributes.personalize != blank or product.metafields.customAttributes.flyers != blank or product.metafields.customAttributes.photography != blank or product.metafields.customAttributes.virtual != blank %}
+
+     {% assign tab_active = true %}
+     {% capture titles %}
+         RESOURCES
+     {% endcapture %}
+     {% capture content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="cardrow">
+  {% if product.metafields.customAttributes.flyers != blank %}
+  <h2 class="mt"style="text-align: center;">SALES TOOLS</h2>
+  <div class="eltd-separator-holder clearfix  eltd-separator-center">
+	<div class="eltd-separator" style="border-style: dotted;width: 80px;border-bottom-width: 3px;margin-top: 10px;margin-bottom: 10px"></div>
+</div>
+  <br>
+
+<div class="resource-column" style="background-color: #fff;">
+<div class="sizecard"><br />
+<i class="fa fa-cloud-download fa-3x"></i> <!-- this icon's 1) style prefix == fa and 2) icon name == camera -->
+<h2>Flyers</h2>
+<p class="sizetitle">Branded and unbranded options available</p>
+<p style="text-align: center;"><a class="btn btn--secondary btn--small" href="{{ product.metafields.customAttributes.flyers }}">VIEW FLYERS</a></p><br>
+</div>
+</div>
+  {% endif %}
+  {% if product.metafields.customAttributes.photography != blank %}
+<div class="resource-column" style="background-color: #fff;">
+<div class="sizecard"><br />
+
+
+<i class="fa fa-camera fa-3x"></i> <!-- this icon's 1) style prefix == fa and 2) icon name == camera -->
+
+<h2>Photography</h2>
+<p class="sizetitle">Product photos of food, boxes, and gift sets</p>
+<p style="text-align: center;"><a class="btn btn--secondary btn--small" href="{{ product.metafields.customAttributes.photography }}">VIEW PHOTOGRAPHY</a></p><br>
+</div>
+
+</div>
+  {% endif %}
+
+
+
+
+     {% if product.metafields.customAttributes.product-testing != blank %}
+<div class="resource-column" style="background-color: #fff;">
+<div class="sizecard"><br />
+
+
+<i class="fa fa-battle-net fa-3x"></i> <!-- this icon's 1) style prefix == fa and 2) icon name == camera -->
+
+<h2>Product Testing</h2>
+<p class="sizetitle">NOTE: You must login or register to launch</p>
+
+<a href="/account" class="btn-prod-testing btn-secondary btn--small--login js-popup-button" data-js-popup-button="account"> SIGN IN</a>
+<p style="text-align: center;"><a class="btn-prod-testing_button" href="{{ product.metafields.customAttributes.product-testing }}">LAUNCH PRODUCT TESTING</a></p><br>
+</div>
+
+</div>
+  {% endif %}
+
+</div>
+  <br>
+
+<br>
+
+   {% if product.metafields.customAttributes.personalize != blank %}
+        <h3 class="mt">Personalization:</h3>
+        {{ product.metafields.customAttributes.personalize }}
+        {% endif %}
+<br>
+     {% endcapture %}
+
+  {% endif %}
+{% endif %}
+
+
+
+ {%- unless customer -%}
+ <style>
+  .btn-prod-testing_button
+
+   {
+   display: none !important;
+     padding: 0 16px;
+  }
+ </style>
+  {%- endunless -%}
+
+
+   {%- if customer -%}
+{%- endif customer -%}
+
+
+ <style>
+td.center-right-align {
+  text-align: right;
+  padding-right: 50%; 
+  transform: translateX(-50%);
+}
+
+ </style>
+
+
